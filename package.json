@@ -1,6 +1,6 @@
 {
   "name": "@reusable-ui-tr/react-type-writer-effect",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A React component for creating a typewriter effect with customizable options.",
   "keywords": [
     "react",
