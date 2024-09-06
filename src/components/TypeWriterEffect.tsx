@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import { CSSProperties } from "react";
+import React, { useState, useEffect, useRef, CSSProperties } from "react";
 
 interface ITypingSpeedMap {
   [key: string]: number;

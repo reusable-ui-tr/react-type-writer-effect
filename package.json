@@ -1,20 +1,48 @@
 {
-  "name": "react-type-writer-effect",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@reusable-ui-tr/react-type-writer-effect",
+  "version": "1.0.0",
+  "description": "A React component for creating a typewriter effect with customizable options.",
+  "keywords": [
+    "react",
+    "react-type-writer-effect",
+    "type-writer-effect",
+    "semih-ataman",
+    "reusable-ui-tr"
+  ],
+  "author": "Semih Ataman",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/react-type-writer-effect.umd.cjs",
+  "module": "./dist/react-type-writer-effect.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/react-type-writer-effect.js",
+      "require": "./dist/react-type-writer-effect.umd.cjs"
+    },
+    "./style.css": "./dist/style.css"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reusable-ui-tr/react-type-writer-effect.git"
+  },
   "dependencies": {
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "vite-plugin-dts": "^4.1.0",
+    "vite-plugin-libcss": "^1.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
+    "@types/node": "^22.5.4",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
@@ -25,5 +53,6 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
-  }
+  },
+  "license": "MIT"
 }
