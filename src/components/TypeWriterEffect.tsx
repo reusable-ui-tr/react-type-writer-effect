@@ -49,27 +49,31 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
     fontSize,
   };
 
-  const typingEffectTimeOut = useRef(() => {
-    const speed: TTypingSpeed = typingSpeed ?? "normal";
-    return 1000 / typingSpeedMap[speed];
-  });
+  const typingEffectTimeout = useRef<number | null>(null);
 
   useEffect(() => {
+    const speed = typingSpeedMap[typingSpeed];
+
     const typeEffect = () => {
-      const isTyping = typeLine.length < text.length;
-
-      if (!isTyping) {
-        return;
+      if (typeLine.length < text.length) {
+        setTypeLine(
+          (prevTypeLine) => prevTypeLine + text.charAt(prevTypeLine.length)
+        );
+        typingEffectTimeout.current = window.setTimeout(
+          typeEffect,
+          1000 / speed
+        );
       }
-
-      setTypeLine(
-        (prevTypeLine) => prevTypeLine + text.charAt(prevTypeLine.length)
-      );
-      setTimeout(typeEffect, typingEffectTimeOut.current());
     };
 
     typeEffect();
-  }, [text]);
+
+    return () => {
+      if (typingEffectTimeout.current) {
+        clearTimeout(typingEffectTimeout.current);
+      }
+    };
+  }, [text, typingSpeed, typingSpeedMap]);
 
   useEffect(() => {
     setIsAnimationInProgress(typeLine.length < text.length);
