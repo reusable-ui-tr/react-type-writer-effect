@@ -73,7 +73,7 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
         clearTimeout(typingEffectTimeout.current);
       }
     };
-  }, [text, typingSpeed, typingSpeedMap]);
+  }, [text, typingSpeed]);
 
   useEffect(() => {
     setIsAnimationInProgress(typeLine.length < text.length);
