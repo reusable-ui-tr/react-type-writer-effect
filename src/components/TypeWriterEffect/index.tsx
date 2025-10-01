@@ -1,47 +1,21 @@
-import React, { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import { typingSpeedMap } from "../../helpers/constants";
+import { getTimeMs } from "../../utils/time.utils";
+import { TypeWriterEffectNs } from "./index.type";
 
-interface ITypingSpeedMap {
-  [key: string]: number;
-}
-
-type TBlinkDuration = `${number}${"s" | "ms"}`;
-type TTypingSpeed = "fastest" | "fast" | "normal" | "slow" | "slowest";
-
-interface ITypeWriterEffectProps {
-  blinkDuration?: TBlinkDuration;
-  cursorColor?: string;
-  fontFamily?: string;
-  fontSize?: string;
-  highlightColor?: string;
-  text: string;
-  textColor?: string;
-  textWrapperElementType?: string;
-  typingSpeed?: TTypingSpeed;
-  showCursorOnFinish?: boolean;
-  loop?: boolean;
-}
-
-const typingSpeedMap: ITypingSpeedMap = {
-  fastest: 40,
-  fast: 25,
-  normal: 10,
-  slow: 5,
-  slowest: 3,
-};
-
-const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
+const TypeWriterEffect = ({
   blinkDuration = "1s",
   cursorColor = "black",
   fontFamily = "Roboto, Arial, sans-serif",
   fontSize = "16px",
   highlightColor = "transparent",
+  loopInterval,
+  showCursorOnFinish = false,
   text,
   textColor = "black",
-  textWrapperElementType = "code",
-  typingSpeed = "normal" as TTypingSpeed,
-  showCursorOnFinish = false,
-  loop = false,
-}) => {
+  textWrapper = "code",
+  typingSpeed = "normal",
+}: TypeWriterEffectNs.Props) => {
   const [typeLine, setTypeLine] = useState("");
   const [isAnimationInProgress, setIsAnimationInProgress] = useState(false);
   const [animationRepeatCount, setAnimationRepeatCount] = useState<
@@ -64,10 +38,11 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
       typingEffectTimeout.current = window.setTimeout(() => {
         setTypeLine((prev) => prev + text.charAt(prev.length));
       }, 1000 / speed);
-    } else if (loop) {
+    } else if (loopInterval) {
+      const intervalMs = getTimeMs(loopInterval);
       typingEffectTimeout.current = window.setTimeout(() => {
         setTypeLine("");
-      }, 1500);
+      }, intervalMs);
     }
 
     return () => {
@@ -75,7 +50,7 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
         clearTimeout(typingEffectTimeout.current);
       }
     };
-  }, [typeLine, text, typingSpeed, loop]);
+  }, [typeLine, text, typingSpeed, loopInterval]);
 
   useEffect(() => {
     setIsAnimationInProgress(typeLine.length < text.length);
@@ -83,11 +58,11 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
 
   useEffect(() => {
     const repeatCount =
-      loop || showCursorOnFinish || isAnimationInProgress ? "infinite" : 0;
+      showCursorOnFinish || isAnimationInProgress ? "infinite" : 0;
     setAnimationRepeatCount(repeatCount);
-  }, [showCursorOnFinish, isAnimationInProgress, loop]);
+  }, [showCursorOnFinish, isAnimationInProgress]);
 
-  const Component = textWrapperElementType as keyof JSX.IntrinsicElements;
+  const Component = textWrapper;
 
   return (
     <div className="typingEffect">
@@ -125,4 +100,5 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
   );
 };
 
-export default TypingEffect;
+export default TypeWriterEffect;
+export type { TypeWriterEffectNs };
