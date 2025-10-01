@@ -13,7 +13,8 @@ export namespace TypeWriterEffectNs {
     showCursorOnFinish?: boolean;
     text: string;
     textColor?: string;
-    textWrapper?: keyof JSX.IntrinsicElements;
+    // TODO: Define type for textWrapper.
+    textWrapper?: any;
     typingSpeed?: TypingSpeed;
   };
 }

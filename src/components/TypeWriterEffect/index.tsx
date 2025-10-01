@@ -1,3 +1,4 @@
+import React from "react";
 import { CSSProperties, useEffect, useRef, useState } from "react";
 import { typingSpeedMap } from "../../helpers/constants";
 import { getTimeMs } from "../../utils/time.utils";
@@ -62,6 +63,7 @@ const TypeWriterEffect = ({
     setAnimationRepeatCount(repeatCount);
   }, [showCursorOnFinish, isAnimationInProgress]);
 
+  // TODO: It seems like textWrapper is not working properly.
   const Component = textWrapper;
 
   return (
