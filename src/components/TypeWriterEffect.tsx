@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, CSSProperties } from "react";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 
 interface ITypingSpeedMap {
   [key: string]: number;
@@ -17,7 +17,17 @@ interface ITypeWriterEffectProps {
   textColor?: string;
   textWrapperElementType?: string;
   typingSpeed?: TTypingSpeed;
+  showCursorOnFinish?: boolean;
+  loop?: boolean;
 }
+
+const typingSpeedMap: ITypingSpeedMap = {
+  fastest: 40,
+  fast: 25,
+  normal: 10,
+  slow: 5,
+  slowest: 3,
+};
 
 const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
   blinkDuration = "1s",
@@ -29,18 +39,14 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
   textColor = "black",
   textWrapperElementType = "code",
   typingSpeed = "normal" as TTypingSpeed,
+  showCursorOnFinish = false,
+  loop = false,
 }) => {
   const [typeLine, setTypeLine] = useState("");
   const [isAnimationInProgress, setIsAnimationInProgress] = useState(false);
-  const [animationRepeatCount, setAnimationRepeatCount] = useState<number | string>(0);
-
-  const typingSpeedMap: ITypingSpeedMap = {
-    fastest: 40,
-    fast: 25,
-    normal: 10,
-    slow: 5,
-    slowest: 3,
-  };
+  const [animationRepeatCount, setAnimationRepeatCount] = useState<
+    number | string
+  >(0);
 
   const computedStyle: CSSProperties = {
     backgroundColor: highlightColor,
@@ -54,34 +60,32 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
   useEffect(() => {
     const speed = typingSpeedMap[typingSpeed];
 
-    const typeEffect = () => {
-      if (typeLine.length < text.length) {
-        setTypeLine(
-          (prevTypeLine) => prevTypeLine + text.charAt(prevTypeLine.length)
-        );
-        typingEffectTimeout.current = window.setTimeout(
-          typeEffect,
-          1000 / speed
-        );
-      }
-    };
-
-    typeEffect();
+    if (typeLine.length < text.length) {
+      typingEffectTimeout.current = window.setTimeout(() => {
+        setTypeLine((prev) => prev + text.charAt(prev.length));
+      }, 1000 / speed);
+    } else if (loop) {
+      typingEffectTimeout.current = window.setTimeout(() => {
+        setTypeLine("");
+      }, 1500);
+    }
 
     return () => {
       if (typingEffectTimeout.current) {
         clearTimeout(typingEffectTimeout.current);
       }
     };
-  }, [text, typingSpeed]);
+  }, [typeLine, text, typingSpeed, loop]);
 
   useEffect(() => {
     setIsAnimationInProgress(typeLine.length < text.length);
   }, [typeLine.length, text.length]);
 
   useEffect(() => {
-    setAnimationRepeatCount(isAnimationInProgress ? "infinite" : 0);
-  }, [isAnimationInProgress]);
+    const repeatCount =
+      loop || showCursorOnFinish || isAnimationInProgress ? "infinite" : 0;
+    setAnimationRepeatCount(repeatCount);
+  }, [showCursorOnFinish, isAnimationInProgress, loop]);
 
   const Component = textWrapperElementType as keyof JSX.IntrinsicElements;
 
@@ -108,13 +112,10 @@ const TypingEffect: React.FC<ITypeWriterEffectProps> = ({
           }
 
           @keyframes blink {
-            0%,
-            20% {
+            0%, 20% {
               border-color: transparent;
             }
-         
-            50%,
-            100% {
+            50%, 100% {
               border-color: ${cursorColor};
             }
           }
