@@ -25,10 +25,18 @@
     "./style.css": "./dist/style.css"
   },
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "unlink": "npm unlink -g @reusable-ui-tr/react-type-writer-effect",
+    "link": "npm link",
+    "major": "npm version major",
+    "minor": "npm version minor",
+    "patch": "npm version patch",
+    "publish:local": "npm run unlink && npm run build && npm run link",
+    "publish:npm": "npm publish --access public",
+    "publish:major": "npm run major && npm run publish:npm",
+    "publish:minor": "npm run minor && npm run publish:npm",
+    "publish:patch": "npm run patch && npm run publish:npm"
   },
   "repository": {
     "type": "git",
