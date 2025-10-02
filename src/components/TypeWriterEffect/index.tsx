@@ -10,6 +10,7 @@ const TypeWriterEffect = ({
   fontFamily = "Roboto, Arial, sans-serif",
   fontSize = "16px",
   highlightColor = "transparent",
+  // TODO: Change loopInterval variable name and think of effect looping options.
   loopInterval,
   showCursorOnFinish = false,
   text,

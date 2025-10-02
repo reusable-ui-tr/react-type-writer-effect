@@ -22,21 +22,20 @@
       "import": "./dist/react-type-writer-effect.js",
       "require": "./dist/react-type-writer-effect.umd.cjs"
     },
-    "./style.css": "./dist/style.css"
+    "./src/*": "./src/*"
   },
   "scripts": {
-    "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "list-links": "npm list -g",
     "unlink": "npm unlink -g @reusable-ui-tr/react-type-writer-effect",
-    "link": "npm link",
+    "build": "tsc -b && vite build",
+    "pack": "npm run build && npm pack",
     "major": "npm version major",
     "minor": "npm version minor",
     "patch": "npm version patch",
-    "publish:local": "npm run unlink && npm run build && npm run link",
-    "publish:npm": "npm publish --access public",
-    "publish:major": "npm run major && npm run publish:npm",
-    "publish:minor": "npm run minor && npm run publish:npm",
-    "publish:patch": "npm run patch && npm run publish:npm"
+    "publish:major": "npm run major && npm publish",
+    "publish:minor": "npm run minor && npm publish",
+    "publish:patch": "npm run patch && npm publish"
   },
   "repository": {
     "type": "git",
@@ -46,7 +45,6 @@
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
-  "dependencies": {},
   "devDependencies": {
     "@eslint/js": "^9.9.0",
     "@types/node": "^22.5.4",
@@ -61,6 +59,9 @@
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1",
     "vite-plugin-dts": "^4.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "license": "MIT"
 }
