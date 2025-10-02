@@ -20,6 +20,7 @@ export default defineConfig({
         },
       },
     },
+    copyPublicDir: false,
   },
   resolve: {
     alias: {
