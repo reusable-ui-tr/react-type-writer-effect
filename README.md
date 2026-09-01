@@ -1,6 +1,6 @@
 # ReusableUITR React component for typewriter effect
 
-A React component for creating a typewriter effect with customizable options.
+A lightweight, fully-typed React component for creating a typewriter effect with customizable options.
 
 ## Demo
 
@@ -8,21 +8,30 @@ Click <a href="https://stackblitz.com/edit/vitejs-vite-jannue?file=src%2FApp.tsx
 
 ## Installation
 
-1. Install '@reusable-ui-tr/react-type-writer-effect' with npm
+Install `@reusable-ui-tr/react-type-writer-effect` with npm:
 
 ```
 npm i @reusable-ui-tr/react-type-writer-effect
 ```
 
-2. Import TypeWriterEffect component in your react component
+or with yarn / pnpm:
 
-```javascript
+```
+yarn add @reusable-ui-tr/react-type-writer-effect
+pnpm add @reusable-ui-tr/react-type-writer-effect
+```
+
+## Usage
+
+Import the `TypeWriterEffect` component in your React component:
+
+```tsx
 import TypeWriterEffect from "@reusable-ui-tr/react-type-writer-effect";
 ```
 
-3. Use 'TypeWriterEffect' component
+Then use it:
 
-```html
+```tsx
 <TypeWriterEffect
   blinkDuration="2s"
   cursorColor="blue"
@@ -36,39 +45,47 @@ import TypeWriterEffect from "@reusable-ui-tr/react-type-writer-effect";
 />
 ```
 
-### Properties
+### Looping
+
+Set `loopInterval` to make the effect restart automatically after it finishes. The value is the pause before it starts over:
+
+```tsx
+<TypeWriterEffect text="I repeat myself." loopInterval="2s" />
+```
+
+### Re-triggering on prop change
+
+The animation runs when the component mounts. If you swap the `text` at runtime (for example, when changing language) and want it to type out again from scratch, give the component a `key` tied to that value so React remounts it:
+
+```tsx
+<TypeWriterEffect key={lang} text={tagline} />
+```
+
+## Properties
 
 | Property Name      | Property Type | Usage                                                                                                                                                                              |        Default Value        | Required |
 | :----------------- | :------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------: | :------: |
-| blinkDuration      | String        | Blink duration of typewriter effect in seconds or milliseconds (Example values: '1s', '10ms' etc.)                                                                                 |            '1s'             |    no    |
+| blinkDuration      | String        | Blink duration of the cursor in seconds or milliseconds (Example values: '1s', '10ms' etc.)                                                                                        |            '1s'             |    no    |
 | cursorColor        | String        | All CSS legal color values are supported. (Example values: '#00ff00', #00ff0080, rgb(0, 255, 0), rgba(0, 255, 0, 0.3), hsl(120, 60%, 70%), hsla(120, 60%, 70%, 0.3), 'green' etc.) |           'black'           |    no    |
 | fontFamily         | String        | Font family of the text                                                                                                                                                            | 'Roboto, Arial, sans-serif' |    no    |
 | fontSize           | String        | Font size of the text                                                                                                                                                              |           '16px'            |    no    |
-| highlightColor     | String        | Highlight color of the text                                                                                                                                                        |        'transparent'        |    no    |
-| loopInterval       | String        | Time interval for restarting the typewriter effect in seconds or milliseconds (Example values: '1s', '10ms' etc.)                                                                  |          undefined          |    no    |
-| showCursorOnFinish | boolean       | Whether the typing cursor should remain visible after the typewriter effect finishes.                                                                                              |            false            |    no    |
-| text               | String        | Content of the text                                                                                                                                                                |            none             |   yes    |
+| highlightColor     | String        | Highlight (background) color of the text                                                                                                                                           |        'transparent'        |    no    |
+| loopInterval       | String        | Time interval before restarting the effect, in seconds or milliseconds (Example values: '1s', '10ms' etc.). Omit to run once.                                                      |          undefined          |    no    |
+| showCursorOnFinish | Boolean       | Whether the cursor should remain visible (blinking) after the effect finishes.                                                                                                     |            false            |    no    |
+| text               | String        | Content of the text to type out                                                                                                                                                    |            none             |   yes    |
 | textColor          | String        | All CSS legal color values are supported. (Example values: '#00ff00', #00ff0080, rgb(0, 255, 0), rgba(0, 255, 0, 0.3), hsl(120, 60%, 70%), hsla(120, 60%, 70%, 0.3), 'green' etc.) |           'black'           |    no    |
-| textWrapper        | String        | Type of HTML element to wrap text (All HTML elements are valid)                                                                                                                    |           'code'            |    no    |
-| typingSpeed        | String        | Typing speed of typewriter effect (Only following keywords are valid: 'slowest', 'slow', normal', 'fast', 'fastest')                                                               |          'normal'           |    no    |
+| textWrapper        | String        | Type of HTML element used to wrap the text (any valid HTML tag name)                                                                                                               |           'code'            |    no    |
+| typingSpeed        | String        | Typing speed. Only these keywords are valid: 'slowest', 'slow', 'normal', 'fast', 'fastest'                                                                                        |          'normal'           |    no    |
 
-## Dependencies
+> **Type note:** `blinkDuration` and `loopInterval` are typed as a `` `${number}${"s" | "ms"}` `` template literal, so TypeScript will accept values like `"1s"` or `"250ms"` and flag anything else.
 
-- [react](https://www.npmjs.com/package/react)
-- [react-dom](https://www.npmjs.com/package/react-dom)
-- [vite-plugin-dts](https://www.npmjs.com/package/vite-plugin-dts)
+## Peer Dependencies
 
-## Dev Dependencies
+These must be present in your project (any modern React app already has them):
 
-- [@eslint/js](https://www.npmjs.com/package/@eslint/js)
-- [@types/node](https://www.npmjs.com/package/@types/node)
-- [@types/react](https://www.npmjs.com/package/@types/react)
-- [@types/react-dom](https://www.npmjs.com/package/@types/react-dom)
-- [@vitejs/plugin-react-swc](https://www.npmjs.com/package/@vitejs/plugin-react-swc)
-- [eslint](https://www.npmjs.com/package/eslint)
-- [eslint-plugin-react-hooks](https://www.npmjs.com/package/eslint-plugin-react-hooks)
-- [eslint-plugin-react-refresh](https://www.npmjs.com/package/eslint-plugin-react-refresh)
-- [globals](https://www.npmjs.com/package/globals)
-- [typescript](https://www.npmjs.com/package/typescript)
-- [typescript-eslint](https://www.npmjs.com/package/typescript-eslint)
-- [vite](https://www.npmjs.com/package/vite)
+- [react](https://www.npmjs.com/package/react) (>= 16.8.0)
+- [react-dom](https://www.npmjs.com/package/react-dom) (>= 16.8.0)
+
+## License
+
+MIT (c) Semih Ataman

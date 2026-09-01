@@ -13,10 +13,12 @@ export default defineConfig({
       fileName: "react-type-writer-effect",
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: [/^react($|\/)/, /^react-dom($|\/)/],
       output: {
         globals: {
           react: "React",
+          "react-dom": "ReactDOM",
+          "react/jsx-runtime": "ReactJSXRuntime",
         },
       },
     },
